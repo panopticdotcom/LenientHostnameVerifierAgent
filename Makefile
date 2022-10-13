@@ -11,6 +11,9 @@ all: $(DISTDIR)/$(JAR)
 clean:
 	$(RM) $(DISTDIR)/$(JAR) $(BUILDDIR)/*.class
 
-$(DISTDIR)/$(JAR): $(SRCDIR)/LenientHostnameVerifierAgent.java
+$(DISTDIR)/$(JAR): $(BUILDDIR)/LenientHostnameVerifierAgent.class
+	jar -cfm $@ $(SRCDIR)/manifest.txt -C $(BUILDDIR) .
+
+$(BUILDDIR)/LenientHostnameVerifierAgent.class: $(SRCDIR)/LenientHostnameVerifierAgent.java
+	mkdir -p build
 	javac -d $(BUILDDIR) $<
-	jar cfm $@ $(SRCDIR)/manifest.txt $(BUILDDIR)/*.class
